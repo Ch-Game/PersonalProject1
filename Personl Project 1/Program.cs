@@ -15,6 +15,11 @@ const int RangeLose2Min = 75;
 const int RangeLose2Max = 85;
 const decimal RangeLose2Amount = 10m;
 const string RangeLose2Message = "You rolled between 75 and 85 — Mr. Preston asked for your Tutition Money You lose $10.00.";
+const int RangeWinMin = 51;
+const int RangeWinMax = 55;
+const decimal RangeWinAmount = 15m;
+const string RangeWinMessage = "You rolled between 51 and 55 — You won $15.00!";
+
 
 Console.WriteLine("Welcome to the RNG game.");
 while (true)
@@ -95,7 +100,7 @@ while (true)
 
         PocketMoney -= RerollCost;
         randomNumber = RandomNumberGenerator.GetInt32(1, 101);
-        if (randomNumber == 1)
+        if (randomNumber == 100)
         {
             PocketMoney += WinAmount;
             Console.WriteLine($"Rerolled {randomNumber} - YOU WIN +${WinAmount:F2}!");
@@ -128,6 +133,13 @@ while (true)
             PocketMoney -= actualLoss;
             Console.WriteLine(RangeLose2Message + $" -${actualLoss:F2} (new balance: ${PocketMoney:F2})");
         }
+        // Range special: win $15 if roll is between 51 and 55
+        if (randomNumber >= RangeWinMin && randomNumber <= RangeWinMax)
+        {
+            PocketMoney += RangeWinAmount;
+            Console.WriteLine(RangeWinMessage + $" +${RangeWinAmount:F2} (new balance: ${PocketMoney:F2})");
+        }
+
     }
 }
 
