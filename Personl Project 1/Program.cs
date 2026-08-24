@@ -18,7 +18,7 @@ const string RangeLose2Message = "You rolled between 75 and 85 — Mr. Preston a
 const int RangeWinMin = 51;
 const int RangeWinMax = 55;
 const decimal RangeWinAmount = 15m;
-const string RangeWinMessage = "You rolled between 51 and 55 — You won $15.00!";
+const string RangeWinMessage = "You rolled between 51 and 55 — Your Dad thought you did a great job in the mines you earn a wage of $15.00!";
 
 
 Console.WriteLine("Welcome to the RNG game.");
@@ -53,7 +53,7 @@ while (true)
     }
     else
     {
-        Console.WriteLine($"You rolled {randomNumber} - YOU SUCK -${PlayCost:F2}.");
+        Console.WriteLine($"You rolled {randomNumber} - YOU LOST -${PlayCost:F2}.");
     }
 
     if (randomNumber == SpecialNumber)
@@ -108,7 +108,7 @@ while (true)
         }
         else
         {
-            Console.WriteLine($"Rerolled {randomNumber} - YOU SUCK -${RerollCost:F2}.");
+            Console.WriteLine($"Rerolled {randomNumber} - YOU LOST -${RerollCost:F2}.");
         }
 
         if (randomNumber == SpecialNumber)
