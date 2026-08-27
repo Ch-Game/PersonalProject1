@@ -46,7 +46,7 @@ while (true)
 
     PocketMoney -= PlayCost;
     int randomNumber = RandomNumberGenerator.GetInt32(1, 101); // 1..100 inclusive
-    if (randomNumber == 1)
+    if (randomNumber == 100)
     {
         PocketMoney += WinAmount;
         Console.WriteLine($"You rolled {randomNumber} - YOU WIN +${WinAmount:F2}!");
@@ -84,13 +84,17 @@ while (true)
     // Offer rerolls until user says no or money runs out
     while (true)
     {
-        Console.WriteLine($"Current balance: ${PocketMoney:F2}. Reroll for ${RerollCost:F2}? (Y/N)");
+        Console.WriteLine($"Current balance: ${PocketMoney:F2}. Press Enter to reroll for ${RerollCost:F2} (or type N to stop)");
         string? rerollAns = Console.ReadLine();
-        if (string.IsNullOrWhiteSpace(rerollAns))
-            break;
-        rerollAns = rerollAns.Trim().ToUpperInvariant();
-        if (rerollAns != "Y")
-            break;
+        // Treat empty input (Enter) as confirmation to reroll. Accept 'Y' as well. 'N' stops.
+        if (!string.IsNullOrWhiteSpace(rerollAns))
+        {
+            rerollAns = rerollAns.Trim().ToUpperInvariant();
+            if (rerollAns == "N")
+                break;
+            if (rerollAns != "Y")
+                break;
+        }
 
         if (PocketMoney < RerollCost)
         {
@@ -100,16 +104,26 @@ while (true)
 
         PocketMoney -= RerollCost;
         randomNumber = RandomNumberGenerator.GetInt32(1, 101);
+
+        // Handle absolute win (100) first and stop rerolls
         if (randomNumber == 100)
         {
             PocketMoney += WinAmount;
             Console.WriteLine($"Rerolled {randomNumber} - YOU WIN +${WinAmount:F2}!");
             break; // stop offering rerolls after a win
         }
-        else
+
+        // Handle the small-range win (51-55). Print only the "YOU WIN" line (no extra message)
+        if (randomNumber >= RangeWinMin && randomNumber <= RangeWinMax)
         {
-            Console.WriteLine($"Rerolled {randomNumber} - YOU LOST -${RerollCost:F2}.");
+            PocketMoney += RangeWinAmount;
+            Console.WriteLine($"Rerolled {randomNumber} - YOU WIN +${RangeWinAmount:F2}!");
+            // continue offering rerolls (do not print the earlier "YOU LOST" line)
+            continue;
         }
+
+        // Otherwise it's a loss for the reroll; show lost message then apply losing specials
+        Console.WriteLine($"Rerolled {randomNumber} - YOU LOST -${RerollCost:F2}.");
 
         if (randomNumber == SpecialNumber)
         {
@@ -132,12 +146,6 @@ while (true)
             decimal actualLoss = Math.Min(RangeLose2Amount, PocketMoney);
             PocketMoney -= actualLoss;
             Console.WriteLine(RangeLose2Message + $" -${actualLoss:F2} (new balance: ${PocketMoney:F2})");
-        }
-        // Range special: win $15 if roll is between 51 and 55
-        if (randomNumber >= RangeWinMin && randomNumber <= RangeWinMax)
-        {
-            PocketMoney += RangeWinAmount;
-            Console.WriteLine(RangeWinMessage + $" +${RangeWinAmount:F2} (new balance: ${PocketMoney:F2})");
         }
 
     }
