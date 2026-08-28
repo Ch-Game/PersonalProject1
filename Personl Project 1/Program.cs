@@ -22,6 +22,11 @@ const string RangeWinMessage = "You rolled between 51 and 55 — Your Dad though
 
 
 Console.WriteLine("Welcome to the RNG game.");
+Console.Write("Enter your name: ");
+string? playerName = Console.ReadLine();
+if (string.IsNullOrWhiteSpace(playerName))
+    playerName = "Player";
+playerName = playerName.Trim();
 while (true)
 {
     Console.WriteLine($"\nYou have ${PocketMoney} in your pocket.");
