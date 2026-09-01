@@ -82,6 +82,7 @@ while (true)
                     PocketMoney -= cost;
                     winAmount += 10m;
                     Console.WriteLine($"Increased win payout by $10. Current win: ${winAmount:F2}");
+                    KickIfBroke();
                 }
                 continue;
             }
@@ -94,8 +95,10 @@ while (true)
                 else
                 {
                     PocketMoney -= cost;
-                    playCost = Math.Max(0.01m, playCost - 0.01m);
-                    Console.WriteLine($"Reduced play cost by $0.01. Current play cost: ${playCost:F2}");
+                    rerollCost = Math.Max(0.05m, rerollCost - 0.05m);
+                    playCost = Math.Max(0.05m, playCost - 0.05m);
+                    Console.WriteLine($"Reduced reroll cost by $0.05. Current reroll cost: ${rerollCost:F2}" + $" | Play cost: ${playCost:F2}");
+                    KickIfBroke();
                 }
                 continue;
             }
@@ -137,6 +140,7 @@ while (true)
         decimal lost = Math.Floor(PocketMoney / 2m * 100m) / 100m; // round down to cents
         PocketMoney -= lost;
         Console.WriteLine($"{playerName}, {SpecialLoseHalfMessage} -${lost:F2} (new balance: ${PocketMoney:F2})");
+        KickIfBroke();
     }
 
     // Range special: lose $5 if roll is between 20 and 30
@@ -145,6 +149,7 @@ while (true)
         decimal actualLoss = Math.Min(RangeLoseAmount, PocketMoney);
         PocketMoney -= actualLoss;
         Console.WriteLine($"{playerName}, {RangeLoseMessage} -${actualLoss:F2} (new balance: ${PocketMoney:F2})");
+        KickIfBroke();
     }
 
     // Range special: lose $10 if roll is between 75 and 85
@@ -153,6 +158,7 @@ while (true)
         decimal actualLoss = Math.Min(RangeLose2Amount, PocketMoney);
         PocketMoney -= actualLoss;
         Console.WriteLine($"{playerName}, {RangeLose2Message} -${actualLoss:F2} (new balance: ${PocketMoney:F2})");
+        KickIfBroke();
     }
 
     // Offer rerolls until user says no or money runs out
@@ -177,6 +183,7 @@ while (true)
         }
 
         PocketMoney -= rerollCost;
+        KickIfBroke();
         randomNumber = RandomNumberGenerator.GetInt32(1, maxRoll + 1);
         randomNumber = Math.Min(randomNumber + luck, maxRoll);
 
