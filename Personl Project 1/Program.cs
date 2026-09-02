@@ -1,4 +1,8 @@
 ﻿using System.Security.Cryptography;
+using System.Text.Json;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 decimal PocketMoney = 1000m;
 // Mutable game configuration (can be changed by upgrades)
