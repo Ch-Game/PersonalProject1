@@ -250,7 +250,6 @@ namespace PersonalProject1.Services
                 PocketMoney += winAmount;
                 Console.Clear();
                 Console.WriteLine($"{_playerName} rolled {randomNumber} - YOU WIN +${winAmount:F2}!");
-                return;
             }
             Console.Clear();
             Console.WriteLine($"{_playerName} rolled {randomNumber} - YOU LOST -${playCost:F2}.");
@@ -313,7 +312,7 @@ namespace PersonalProject1.Services
                 if (randomNumber == maxRoll)
                 {
                     PocketMoney += winAmount;
-                    Console.WriteLine($"{_playerName} rerolled {randomNumber} - YOU FOUND $100 In YOUR MOMS PURSE +${winAmount:F2}!");
+                    Console.WriteLine($"{_playerName} rerolled {randomNumber} - YOU FOUND {winAmount:F2} In YOUR MOMS PURSE +${winAmount:F2}!");
                     continue;
                 }
 
