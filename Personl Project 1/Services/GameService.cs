@@ -245,7 +245,6 @@ namespace PersonalProject1.Services
             bool isWin = randomNumber == maxRoll || (randomNumber >= RangeWinMin && randomNumber <= RangeWinMax) || (randomNumber >= RangeWin2Min && randomNumber <= RangeWin2Max);
             _leaderboard.RecordRoll(_playerName, isWin);
 
-            Console.Clear();
             if (randomNumber == maxRoll)
             {
                 PocketMoney += winAmount;;
