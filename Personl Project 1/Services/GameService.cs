@@ -87,7 +87,6 @@ namespace PersonalProject1.Services
         {
             while (true)
             {
-                Console.Clear();
                 Console.WriteLine($"\nYou have ${PocketMoney:F2} in your pocket.");
                 KickIfBroke();
                 Console.WriteLine("Choose: (P)lay, (U)pgrades, (L)eaderboard, (R)eset leaderboard, (C)lear, (Q)uit");
@@ -142,6 +141,7 @@ namespace PersonalProject1.Services
                     }
                     else
                     {
+                        Console.Clear();
                         Console.WriteLine("Reset canceled.");
                     }
                     continue;
@@ -166,7 +166,6 @@ namespace PersonalProject1.Services
         {
             while (true)
             {
-                Console.Clear();
                 Console.WriteLine($"\nUpgrades - Balance: ${PocketMoney:F2}");
                 Console.WriteLine("1) Buy +1 Luck (cost: $50)");
                 Console.WriteLine("2) Increase win payout by $10 (cost: $200)");
@@ -180,6 +179,7 @@ namespace PersonalProject1.Services
                 if (upChoice == "4")
                     break;
 
+                Console.Clear();
                 if (upChoice == "1")
                 {
                     decimal cost = 50m;
@@ -247,13 +247,16 @@ namespace PersonalProject1.Services
 
             if (randomNumber == maxRoll)
             {
-                PocketMoney += winAmount;;
+                PocketMoney += winAmount;
+                Console.Clear();
                 Console.WriteLine($"{_playerName} rolled {randomNumber} - YOU WIN +${winAmount:F2}!");
                 return;
             }
+            Console.Clear();
             Console.WriteLine($"{_playerName} rolled {randomNumber} - YOU LOST -${playCost:F2}.");
 
             // Range special: lose $5 if roll is between 20 and 30
+            Console.Clear();
             if (randomNumber >= RangeLoseMin && randomNumber <= RangeLoseMax)
             {
                 PocketMoney -= RangeLoseAmount;
@@ -261,6 +264,7 @@ namespace PersonalProject1.Services
             }
 
             // Range special: lose $10 if roll is between 75 and 85
+            Console.Clear();
             if (randomNumber >= RangeLose2Min && randomNumber <= RangeLose2Max)
             {
                 decimal actualLoss = Math.Min(RangeLose2Amount, PocketMoney);
@@ -269,6 +273,7 @@ namespace PersonalProject1.Services
             }
 
             // Special 50: lose half
+            Console.Clear();
             if (randomNumber == SpecialNumber)
             {
                 decimal half = Math.Floor(PocketMoney / 2m * 100m) / 100m;
@@ -284,6 +289,7 @@ namespace PersonalProject1.Services
                 if (!string.IsNullOrWhiteSpace(rerollAns))
                 {
                     rerollAns = rerollAns.Trim().ToUpperInvariant();
+                    Console.Clear();
                     if (rerollAns == "N")
                         break;
                     if (rerollAns != "Y")
@@ -303,13 +309,15 @@ namespace PersonalProject1.Services
                 bool rerollWin = randomNumber == maxRoll || (randomNumber >= RangeWinMin && randomNumber <= RangeWinMax) || (randomNumber >= RangeWin2Min && randomNumber <= RangeWin2Max);
                 _leaderboard.RecordRoll(_playerName, rerollWin);
 
+                Console.Clear();
                 if (randomNumber == maxRoll)
                 {
                     PocketMoney += winAmount;
                     Console.WriteLine($"{_playerName} rerolled {randomNumber} - YOU FOUND $100 In YOUR MOMS PURSE +${winAmount:F2}!");
-                    break;
+                    continue;
                 }
 
+                Console.Clear();
                 if (randomNumber >= RangeWinMin && randomNumber <= RangeWinMax)
                 {
                     PocketMoney += RangeWinAmount;
@@ -324,6 +332,7 @@ namespace PersonalProject1.Services
                     continue;
                 }
 
+                Console.Clear();
                 Console.WriteLine($"{_playerName} rerolled {randomNumber} - YOU LOST -${rerollCost:F2}.");
 
                 if (randomNumber >= RangeLoseMin && randomNumber <= RangeLoseMax)
@@ -344,6 +353,7 @@ namespace PersonalProject1.Services
                     decimal half = Math.Floor(PocketMoney / 2m * 100m) / 100m;
                     PocketMoney -= half;
                     Console.WriteLine($"{SpecialMessage} {SpecialLoseHalfMessage} -${half:F2} (new balance: ${PocketMoney:F2})");
+
                 }
             }
         }
