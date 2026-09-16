@@ -16,14 +16,9 @@ namespace PersonalProject1.Services
         private int luck = 0;
         private const decimal priceOfLuckN = 50m;
         private const decimal priceOfLuck10 = 500m;
-        private const int addedLuckN = 1;
-        private const int addedLuck10 = 10;
         private const decimal priceOfPayoutIncreaseN = 200m;
         private const decimal priceOfPayoutIncrease100 = 2000m;
         private const decimal priceOfPayoutIncrease1000 = 20000m;
-        private const int addedPayoutIncreaseN = 10;
-        private const int addedPayoutIncrease100 = 100;
-        private const int addedPayoutIncrease1000 = 1000;
         private const decimal priceOfPlayCostReductionN = 100m;
         private const decimal priceOfGamingChair = 100000000m;
         private const int SpecialNumber = 50;
@@ -45,7 +40,7 @@ namespace PersonalProject1.Services
         private const decimal RangeWinAmount = 15m;
 
         private const int RangeWin2Min = 93;
-        private const int RangeWin2Max = 90; // original had reversed bounds; keep as-is
+        private const int RangeWin2Max = 90;
         private const decimal RangeWin2Amount = 25m;
 
         private readonly Leaderboard _leaderboard;
