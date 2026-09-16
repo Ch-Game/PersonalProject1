@@ -70,6 +70,13 @@ namespace PersonalProject1.Models
             Save();
         }
 
+        // Clear all entries and persist an empty leaderboard
+        public void Reset()
+        {
+            _entries.Clear();
+            Save();
+        }
+
         public IEnumerable<LeaderboardEntry> Top(int count = 10)
         {
             return _entries.Values

@@ -14,7 +14,18 @@ namespace PersonalProject1.Services
         private decimal winAmount = 100m;
         private int maxRoll = 100;
         private int luck = 0;
-
+        private const decimal priceOfLuckN = 50m;
+        private const decimal priceOfLuck10 = 500m;
+        private const int addedLuckN = 1;
+        private const int addedLuck10 = 10;
+        private const decimal priceOfPayoutIncreaseN = 200m;
+        private const decimal priceOfPayoutIncrease100 = 2000m;
+        private const decimal priceOfPayoutIncrease1000 = 20000m;
+        private const int addedPayoutIncreaseN = 10;
+        private const int addedPayoutIncrease100 = 100;
+        private const int addedPayoutIncrease1000 = 1000;
+        private const decimal priceOfPlayCostReductionN = 100m;
+        private const decimal priceOfGamingChair = 100000000m;
         private const int SpecialNumber = 50;
         private const string SpecialMessage = "You rolled 50 — A Indian scammer stole your money!";
         private const string SpecialLoseHalfMessage = "Special effect: you lose half your money";
@@ -39,6 +50,7 @@ namespace PersonalProject1.Services
 
         private readonly Leaderboard _leaderboard;
         private readonly string _playerName;
+        private bool _hasGamingChair = false;
 
         public GameService(string playerName, Leaderboard leaderboard)
         {
@@ -96,7 +108,18 @@ namespace PersonalProject1.Services
 
                 choice = choice.Trim().ToUpperInvariant();
                 if (choice == "Q")
-                    break;
+                {
+                    if (_hasGamingChair)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Congratulations! You bought the Very Good Gaming Chair and won the game!");
+                        break;
+                    }
+
+                    Console.Clear();
+                    Console.WriteLine("You cannot win yet. To win the game you must buy the Very Good Gaming Chair for $10,000,000,000.00 via Upgrades (U).");
+                    continue;
+                }
 
                 if (choice == "U")
                 {
@@ -130,8 +153,8 @@ namespace PersonalProject1.Services
                     {
                         try
                         {
-                            if (File.Exists("leaderboard.json"))
-                                File.Delete("leaderboard.json");
+                            // Clear in-memory leaderboard and persist empty file
+                            _leaderboard.Reset();
                         }
                         catch
                         {
@@ -167,22 +190,27 @@ namespace PersonalProject1.Services
             while (true)
             {
                 Console.WriteLine($"\nUpgrades - Balance: ${PocketMoney:F2}");
-                Console.WriteLine("1) Buy +1 Luck (cost: $50)");
-                Console.WriteLine("2) Increase win payout by $10 (cost: $200)");
-                Console.WriteLine("3) Reduce play cost by $0.05 (cost: $100)");
-                Console.WriteLine("4) Exit upgrades");
-                Console.Write("Choose upgrade (1-4): ");
+                Console.WriteLine($"1) Buy +1 Luck (cost: ${priceOfLuckN:F2})");
+                Console.WriteLine($"2) Buy +10 Luck (cost: ${priceOfLuck10:F2})");
+                Console.WriteLine($"3) Increase win payout by $10 (cost: ${priceOfPayoutIncreaseN:F2})");
+                Console.WriteLine($"4) Increase win payout by $100 (cost: ${priceOfPayoutIncrease100:F2})");
+                Console.WriteLine($"5) Increase win payout by $1,000 (cost: ${priceOfPayoutIncrease1000:F2})");
+                Console.WriteLine($"6) Reduce play cost by $0.05 (cost: ${priceOfPlayCostReductionN:F2})");
+                Console.WriteLine($"7) Buy Very Good Gaming Chair (cost: ${priceOfGamingChair:F2}) - required to win");
+                Console.WriteLine("8) Back to main menu");
+                Console.Write("Choose upgrade (1-8): ");
                 string? upChoice = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(upChoice))
                     continue;
                 upChoice = upChoice.Trim();
-                if (upChoice == "4")
+                Console.Clear();
+                if (upChoice == "8")
                     break;
 
                 Console.Clear();
                 if (upChoice == "1")
                 {
-                    decimal cost = 50m;
+                    decimal cost = priceOfLuckN;
                     if (PocketMoney < cost)
                         Console.WriteLine("Not enough money for that upgrade.");
                     else
@@ -194,10 +222,45 @@ namespace PersonalProject1.Services
                     }
                     continue;
                 }
-
                 if (upChoice == "2")
                 {
-                    decimal cost = 200m;
+                    decimal cost = priceOfLuck10;
+                    if (PocketMoney < cost)
+                        Console.WriteLine("Not enough money for that upgrade.");
+                    else
+                    {
+                        PocketMoney -= cost;
+                        luck += 10;
+                        Console.WriteLine($"\nPurchased +10 Luck. Current luck: {luck}");
+                        KickIfBroke();
+                    }
+                    continue;
+                }
+
+                if (upChoice == "7")
+                {
+                    decimal chairCost = priceOfGamingChair;
+                    if (_hasGamingChair)
+                    {
+                        Console.WriteLine("You already own the Very Good Gaming Chair.");
+                    }
+                    else if (PocketMoney < chairCost)
+                    {
+                        Console.WriteLine("Not enough money for that upgrade.");
+                    }
+                    else
+                    {
+                        PocketMoney -= chairCost;
+                        _hasGamingChair = true;
+                        Console.WriteLine("You purchased the Very Good Gaming Chair. You can now win the game by quitting (Q). Previously saved progress may be lost upon exit.");
+                        KickIfBroke();
+                    }
+                    continue;
+                }
+
+                if (upChoice == "3")
+                {
+                    decimal cost = priceOfPayoutIncreaseN;
                     if (PocketMoney < cost)
                         Console.WriteLine("Not enough money for that upgrade.");
                     else
@@ -210,9 +273,39 @@ namespace PersonalProject1.Services
                     continue;
                 }
 
-                if (upChoice == "3")
+                if (upChoice == "4")
                 {
-                    decimal cost = 100m;
+                    decimal cost = priceOfPayoutIncrease100;
+                    if (PocketMoney < cost)
+                        Console.WriteLine("Not enough money for that upgrade.");
+                    else
+                    {
+                        PocketMoney -= cost;
+                        winAmount += 100m;
+                        Console.WriteLine($"\nIncreased win payout by $100. Current win: ${winAmount:F2}");
+                        KickIfBroke();
+                    }
+                    continue;
+                }
+
+                if (upChoice == "5")
+                {
+                    decimal cost = priceOfPayoutIncrease1000;
+                    if (PocketMoney < cost)
+                        Console.WriteLine("Not enough money for that upgrade.");
+                    else
+                    {
+                        PocketMoney -= cost;
+                        winAmount += 1000m;
+                        Console.WriteLine($"\nIncreased win payout by $1000. Current win: ${winAmount:F2}");
+                        KickIfBroke();
+                    }
+                    continue;
+                }
+
+                if (upChoice == "6")
+                {
+                    decimal cost = priceOfPlayCostReductionN;
                     if (PocketMoney < cost)
                         Console.WriteLine("Not enough money for that upgrade.");
                     else
