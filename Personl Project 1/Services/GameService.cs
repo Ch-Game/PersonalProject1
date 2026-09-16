@@ -20,7 +20,7 @@ namespace PersonalProject1.Services
         private const decimal priceOfPayoutIncrease100 = 2000m;
         private const decimal priceOfPayoutIncrease1000 = 20000m;
         private const decimal priceOfPlayCostReductionN = 100m;
-        private const decimal priceOfGamingChair = 100000000m;
+        private const decimal priceOfGamingChair = 1000000000m;
         private const int SpecialNumber = 50;
         private const string SpecialMessage = "You rolled 50 — A Indian scammer stole your money!";
         private const string SpecialLoseHalfMessage = "Special effect: you lose half your money";
