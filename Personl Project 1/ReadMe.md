@@ -5,3 +5,6 @@ Ive also implemented a scoring system that rewards players based on their perfor
 The game has menus for upgrades and many options for replayabity. 
 The game features a user-friendly interface, making it easy for players to navigate and enjoy the experience.
 Overall, this project has allowed me to apply my programming knowledge in a practical way while creating an entertaining game for others to enjoy.
+
+
+add lore

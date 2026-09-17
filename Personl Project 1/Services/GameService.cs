@@ -14,13 +14,14 @@ namespace PersonalProject1.Services
         private decimal winAmount = 100m;
         private int maxRoll = 100;
         private int luck = 0;
+        private int maxLuck = 50;
         private const decimal priceOfLuckN = 50m;
         private const decimal priceOfLuck10 = 500m;
         private const decimal priceOfPayoutIncreaseN = 200m;
         private const decimal priceOfPayoutIncrease100 = 2000m;
         private const decimal priceOfPayoutIncrease1000 = 20000m;
         private const decimal priceOfPlayCostReductionN = 100m;
-        private const decimal priceOfGamingChair = 1000000000m;
+        private const decimal priceOfGamingChair = 100000000m;
         private const int SpecialNumber = 50;
         private const string SpecialMessage = "You rolled 50 — A Indian scammer stole your money!";
         private const string SpecialLoseHalfMessage = "Special effect: you lose half your money";
@@ -42,6 +43,12 @@ namespace PersonalProject1.Services
         private const int RangeWin2Min = 93;
         private const int RangeWin2Max = 90;
         private const decimal RangeWin2Amount = 25m;
+        private const int RangeLuckLoss = 60;
+        private const int RangeLuckLossMax = 65;
+        private const string RangeLuckLossMessage = "You rolled between 60 and 65 — The gamemaster made you lose 5 Luck points.";
+        private const int RangeCostIncreaseMin = 66;
+        private const int RangeCostIncreaseMax = 70;
+        private const string RangeCostIncreaseMessage = "You rolled between 66 and 70 — The gamemaster increased your play cost by $0.05.";
 
         private readonly Leaderboard _leaderboard;
         private readonly string _playerName;
@@ -205,12 +212,14 @@ namespace PersonalProject1.Services
                 Console.Clear();
                 if (upChoice == "1")
                 {
-                    decimal cost = priceOfLuckN;
-                    if (PocketMoney < cost)
+                    decimal luckcost = priceOfLuckN;
+                    if (PocketMoney < luckcost)
                         Console.WriteLine("Not enough money for that upgrade.");
+                    else if (luck >= maxLuck)
+                        Console.WriteLine("Luck is already at maximum.");
                     else
                     {
-                        PocketMoney -= cost;
+                        PocketMoney -= luckcost;
                         luck += 1;
                         Console.WriteLine($"\nPurchased +1 Luck. Current luck: {luck}");
                         KickIfBroke();
@@ -219,12 +228,14 @@ namespace PersonalProject1.Services
                 }
                 if (upChoice == "2")
                 {
-                    decimal cost = priceOfLuck10;
-                    if (PocketMoney < cost)
+                    decimal luck10cost = priceOfLuck10;
+                    if (PocketMoney < luck10cost)
                         Console.WriteLine("Not enough money for that upgrade.");
+                    else if (luck + 10 > maxLuck)
+                        Console.WriteLine("Cannot purchase +10 Luck as it would exceed maximum luck.");
                     else
                     {
-                        PocketMoney -= cost;
+                        PocketMoney -= luck10cost;
                         luck += 10;
                         Console.WriteLine($"\nPurchased +10 Luck. Current luck: {luck}");
                         KickIfBroke();
@@ -255,12 +266,12 @@ namespace PersonalProject1.Services
 
                 if (upChoice == "3")
                 {
-                    decimal cost = priceOfPayoutIncreaseN;
-                    if (PocketMoney < cost)
+                    decimal payoutincreasecost = priceOfPayoutIncreaseN;
+                    if (PocketMoney < payoutincreasecost)
                         Console.WriteLine("Not enough money for that upgrade.");
                     else
                     {
-                        PocketMoney -= cost;
+                        PocketMoney -= payoutincreasecost;
                         winAmount += 10m;
                         Console.WriteLine($"\nIncreased win payout by $10. Current win: ${winAmount:F2}");
                         KickIfBroke();
@@ -270,12 +281,12 @@ namespace PersonalProject1.Services
 
                 if (upChoice == "4")
                 {
-                    decimal cost = priceOfPayoutIncrease100;
-                    if (PocketMoney < cost)
+                    decimal payoutincrease100cost = priceOfPayoutIncrease100;
+                    if (PocketMoney < payoutincrease100cost)
                         Console.WriteLine("Not enough money for that upgrade.");
                     else
                     {
-                        PocketMoney -= cost;
+                        PocketMoney -= payoutincrease100cost;
                         winAmount += 100m;
                         Console.WriteLine($"\nIncreased win payout by $100. Current win: ${winAmount:F2}");
                         KickIfBroke();
@@ -285,12 +296,12 @@ namespace PersonalProject1.Services
 
                 if (upChoice == "5")
                 {
-                    decimal cost = priceOfPayoutIncrease1000;
-                    if (PocketMoney < cost)
+                    decimal payoutincrease1000cost = priceOfPayoutIncrease1000;
+                    if (PocketMoney < payoutincrease1000cost)
                         Console.WriteLine("Not enough money for that upgrade.");
                     else
                     {
-                        PocketMoney -= cost;
+                        PocketMoney -= payoutincrease1000cost;
                         winAmount += 1000m;
                         Console.WriteLine($"\nIncreased win payout by $1000. Current win: ${winAmount:F2}");
                         KickIfBroke();
@@ -300,18 +311,26 @@ namespace PersonalProject1.Services
 
                 if (upChoice == "6")
                 {
-                    decimal cost = priceOfPlayCostReductionN;
-                    if (PocketMoney < cost)
+                    decimal playreductioncost = priceOfPlayCostReductionN;
+                    if (PocketMoney < playreductioncost)
                         Console.WriteLine("Not enough money for that upgrade.");
+                    else if (playCost <= 0.05m)
+                        Console.WriteLine("Play cost is already at minimum.");
                     else
                     {
-                        PocketMoney -= cost;
+                        PocketMoney -= playreductioncost;
                         rerollCost = Math.Max(0.05m, rerollCost - 0.05m);
                         playCost = Math.Max(0.05m, playCost - 0.05m);
                         Console.WriteLine($"Reduced reroll cost by $0.05. Current reroll cost: ${rerollCost:F2}" + $" | Play cost: ${playCost:F2}");
                         KickIfBroke();
                     }
                     continue;
+                }
+
+                if (upChoice == "9")
+                {
+                  Console.WriteLine("GameMaster: hmmmm... You're Not Supposed To Be Here. Thou through many attempted of this timeline this one is quite strange.");
+                    Console.WriteLine("GameMaster: I will allow you to continue, but I will be watching you. Maybe try a different path, but make sure you have enough money.");
                 }
 
                 Console.WriteLine("Invalid selection.");
@@ -441,6 +460,17 @@ namespace PersonalProject1.Services
                     PocketMoney -= half;
                     Console.WriteLine($"{SpecialMessage} {SpecialLoseHalfMessage} -${half:F2} (new balance: ${PocketMoney:F2})");
 
+                }
+
+                if (randomNumber >= RangeLuckLoss && randomNumber <= RangeLuckLossMax)
+                {
+                    luck = Math.Max(0, luck - 5);
+                    Console.WriteLine($"{_playerName}, {RangeLuckLossMessage} -5 Luck (new luck: {luck})");
+                }
+                if (randomNumber >= RangeCostIncreaseMin && randomNumber <= RangeCostIncreaseMax)
+                {
+                    playCost += 0.05m;
+                    Console.WriteLine($"{_playerName}, {RangeCostIncreaseMessage}");
                 }
             }
         }
