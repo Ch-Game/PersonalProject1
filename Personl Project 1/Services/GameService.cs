@@ -49,10 +49,24 @@ namespace PersonalProject1.Services
         private const int RangeCostIncreaseMin = 66;
         private const int RangeCostIncreaseMax = 70;
         private const string RangeCostIncreaseMessage = "You rolled between 66 and 70 — The gamemaster increased your play cost by $0.05.";
-
+        private const decimal priceOfCharity = 100m;
+        private const decimal priceOfCharity2 = 1000m;
+        private const decimal priceOfCharity3 = 10000m;
+        // Game Data
         private readonly Leaderboard _leaderboard;
         private readonly string _playerName;
         private bool _hasGamingChair = false;
+
+        // Gamemaster
+        private bool seenSecret = false;
+        private const decimal RangeQ1Min = 100000m;
+        private const decimal RangeQ1Max = 125000m;
+        private bool seenSecret2 = false;
+        private bool seenSecret3 = false;
+        private bool seenSecret4 = false;
+        private bool seenSecret5 = false;
+        private bool seenSecret6 = false;
+        private bool seenSecret7 = false;
 
         public GameService(string playerName, Leaderboard leaderboard)
         {
@@ -200,7 +214,12 @@ namespace PersonalProject1.Services
                 Console.WriteLine($"6) Reduce play cost by $0.05 (cost: ${priceOfPlayCostReductionN:F2})");
                 Console.WriteLine($"7) Buy Very Good Gaming Chair (cost: ${priceOfGamingChair:F2}) - required to win");
                 Console.WriteLine("8) Back to main menu");
-                Console.Write("Choose upgrade (1-8): ");
+                Console.WriteLine("\nCharity Donations:");
+                Console.WriteLine($"9) Donate to Charity (cost: ${priceOfCharity:F2})");
+                Console.WriteLine($"10) Donate to Charity (cost: ${priceOfCharity2:F2})");
+                Console.WriteLine($"11) Donate to Charity (cost: ${priceOfCharity3:F2})");
+                Console.WriteLine("\n");
+                Console.Write("Choose upgrade (1-8) or Choose Donation (9-11):");
                 string? upChoice = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(upChoice))
                     continue;
@@ -326,8 +345,44 @@ namespace PersonalProject1.Services
                     }
                     continue;
                 }
-
                 if (upChoice == "9")
+                {
+                    decimal charitycost = priceOfCharity;
+                    if (PocketMoney < charitycost)
+                        Console.WriteLine("Not enough money for that.");
+                    else
+                    {
+                        PocketMoney -= charitycost;
+                        KickIfBroke();
+                    }
+                    continue;
+                }
+                if (upChoice == "10")
+                {
+                    decimal charitycost2 = priceOfCharity2;
+                    if (PocketMoney < charitycost2)
+                        Console.WriteLine("Not enough money for that.");
+                    else
+                    {
+                        PocketMoney -= charitycost2;
+                        KickIfBroke();
+                    }
+                    continue;
+                }
+                if (upChoice == "11")
+                {
+                    decimal charitycost3 = priceOfCharity3;
+                    if (PocketMoney < charitycost3)
+                        Console.WriteLine("Not enough money for that.");
+                    else
+                    {
+                        PocketMoney -= charitycost3;
+                        KickIfBroke();
+                    }
+                    continue;
+                }
+                //Gamemaster Secret Quest
+                if (upChoice == "12")
                 {
                   Console.WriteLine("GameMaster: hmmmm... You're Not Supposed To Be Here. Thou through many attempted of this timeline this one is quite strange.");
                     Console.WriteLine("GameMaster: I will allow you to continue, but I will be watching you. Maybe try a different path, but make sure you have enough money.");
