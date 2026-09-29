@@ -6,5 +6,6 @@ The game has menus for upgrades and many options for replayabity.
 The game features a user-friendly interface, making it easy for players to navigate and enjoy the experience.
 Overall, this project has allowed me to apply my programming knowledge in a practical way while creating an entertaining game for others to enjoy.
 
+The biggest bug i had was certain things clearing when looping the game, but i fixed it by adding a few more if statements to check for certain conditions.
 
-add lore
+How to Run: Open Visual Studios and rune the build to start.

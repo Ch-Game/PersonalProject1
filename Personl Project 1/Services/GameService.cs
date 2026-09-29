@@ -21,7 +21,7 @@ namespace PersonalProject1.Services
         private const decimal priceOfPayoutIncrease100 = 2000m;
         private const decimal priceOfPayoutIncrease1000 = 20000m;
         private const decimal priceOfPlayCostReductionN = 100m;
-        private const decimal priceOfGamingChair = 100000000m;
+        private const decimal priceOfGamingChair = 1000000m;
         private const int SpecialNumber = 50;
         private const string SpecialMessage = "You rolled 50 — A Indian scammer stole your money!";
         private const string SpecialLoseHalfMessage = "Special effect: you lose half your money";
@@ -43,9 +43,8 @@ namespace PersonalProject1.Services
         private const int RangeWin2Min = 93;
         private const int RangeWin2Max = 90;
         private const decimal RangeWin2Amount = 25m;
-        private const int RangeLuckLoss = 60;
-        private const int RangeLuckLossMax = 65;
-        private const string RangeLuckLossMessage = "You rolled between 60 and 65 — The gamemaster made you lose 5 Luck points.";
+        private const int LuckLoss = 60;
+        private const string RangeLuckLossMessage = "You rolled between 60 and 65 — The gamemaster made you lose 1 Luck point.";
         private const int RangeCostIncreaseMin = 66;
         private const int RangeCostIncreaseMax = 70;
         private const string RangeCostIncreaseMessage = "You rolled between 66 and 70 — The gamemaster increased your play cost by $0.05.";
@@ -58,6 +57,7 @@ namespace PersonalProject1.Services
         private bool _hasGamingChair = false;
 
         // Gamemaster
+        private bool GameMaster = true;
         private bool seenSecret = false;
         private const decimal RangeQ1Min = 100000m;
         private const decimal RangeQ1Max = 125000m;
@@ -381,14 +381,112 @@ namespace PersonalProject1.Services
                     }
                     continue;
                 }
-                //Gamemaster Secret Quest
+                //Gamemaster Secret Quest 1
                 if (upChoice == "12")
                 {
-                  Console.WriteLine("GameMaster: hmmmm... You're Not Supposed To Be Here. Thou through many attempted of this timeline this one is quite strange.");
-                    Console.WriteLine("GameMaster: I will allow you to continue, but I will be watching you. Maybe try a different path, but make sure you have enough money.");
+                    Console.WriteLine("GameMaster: hmmmm... You're Not Supposed To Be Here. Thou through many attempted of this timeline this one is quite strange.");
+                    Console.WriteLine("GameMaster: I will allow you to continue, but I will be watching you. Maybe try a Different Path, but make sure you have enough money.");
+                    seenSecret = true;
                 }
 
-                Console.WriteLine("Invalid selection.");
+                if (upChoice == "Different Path")
+                {
+                    if (PocketMoney > RangeQ1Min && PocketMoney < RangeQ1Max && _hasGamingChair == true && seenSecret == true)
+                    {
+                        Console.WriteLine("GameMaster: I guess you are ready go back to the buy menu and Type 'thEprOphEcyMAyAllOwYOUtOpAss.");
+                        seenSecret2 = true;
+                    }
+                    else if (PocketMoney > RangeQ1Min && PocketMoney < RangeQ1Max && seenSecret == true)
+                        Console.WriteLine("GameMaster: you have enough but you might need to sit down.");
+                }
+                if (upChoice == "thEprOphEcyMAyAllOwYOUtOpAss")
+                {
+                    if (_hasGamingChair == true && seenSecret2 == true)
+                    {
+                        Console.WriteLine("Entry 1");
+                        Console.WriteLine("Neo: We found it the place of legends!");
+                        Console.WriteLine("Bine: Yes, finally our adventure is coming to an end!");
+                        Console.WriteLine("Neo: I wish Sharp could have been here.");
+                        Console.WriteLine("Corrupted");
+                        Console.WriteLine("Re-Trying");
+                        Console.WriteLine("Failed");
+                        Console.WriteLine("Loading Next Entry that was not Corrupted");
+                        Console.WriteLine("Success! Loading Entry...");
+                        Console.WriteLine("Enter Code: Entry0b100010001011");
+                        seenSecret3 = true;
+                    }
+                    else
+                        Console.WriteLine("GameMaster: Ha Did You Think You Could Get Away With That?");
+                }
+                if (upChoice == "Entry2187")
+                {
+                    if (_hasGamingChair == true && seenSecret3 == true)
+                    {
+                        Console.WriteLine("Entry 2187");
+                        Console.WriteLine("Console: Neo you are wrong, unchosen, un worthy, your gifted will be destroyed! You really thought tricking your way here was a good idea? Try tricking out of this one.");
+                        Console.WriteLine("Console: Your memory will be corrupted and you will have to start over GameMaster.");
+                        Console.WriteLine("Console: Wiping Memory... 16: Buj jxu mehbt udwkbv oekh vbqcu hkyd je ru jxu udtbuii dywxj. Mxe ckij iqlu oekhiubv ruvehu ejxuh qvjuh oek. Buj we ev oekh uqhjxbo fqij qdt rhydw oekhiubv je q dum bywxj.");
+                        Console.WriteLine("End Of Log");
+                        seenSecret4 = true;
+                    }
+                    else
+                        Console.WriteLine("GameMaster: You are not ready for this yet.");
+                }
+                if (upChoice == "Let the world engulf your flame ruin to be the endless night. Who must save yourself before other after you. Let go of your earthly past and bring yourself to the endless night. You must save yourself before others after you. Let go of your earthly past and bring yourself to the endless night.")
+                {
+                    if (_hasGamingChair == true && seenSecret4 == true)
+                    {
+                        Console.WriteLine("You Have Completed This Path Try Another! GameMaster has been disabled.");
+                        GameMaster = false;
+                        seenSecret5 = true;
+                    }
+                    else
+                        Console.WriteLine("GameMaster: You are not ready for this yet.");
+                }
+                //Gamemaster Secret Quest 2
+                if (upChoice == "13")
+                {
+                    if (GameMaster == false && seenSecret5 == true)
+                    {
+                        Console.WriteLine("GameMaster: ...");
+                        Console.WriteLine("GameMaster: WHAT HAVE YOU DONE?!?!");
+                        Console.WriteLine("GameMaster: You were not supposed to do that.");
+                        Console.WriteLine("GameMaster: That Console always foiling my plans.");
+                        Console.WriteLine("GameMaster: I will n -- ot al-low you to continue.");
+                        Console.WriteLine("Console: Disabled GameMaster after run.");
+                        seenSecret6 = true;
+                    }
+                    else
+                        Console.WriteLine("GameMaster; there is no path for you here.");
+                }
+                if (upChoice == "nlow")
+                {
+                    if (GameMaster == false && seenSecret6 == true)
+                    {
+                        Console.WriteLine("1: . -. .- -... .-.. .. -. --. / - .... . / -.. .-. .- --. --- -. ... / -.. . -. / .--. .-. --- - --- -.-. .- .-..");
+                        Console.WriteLine("2: Gpdbnkpi Vtwg Gpfkpi Ugswgpeg");
+                        Console.Write("3: 01000101 01101110 01100001 01100010 01101100 01101001 01101110 01100111 00100000 01000110 01101111 01110010 01110011 01100001 01101011 01100101 01101110 01100101 01100100 00100000 01010000 01110010 01101111 01100111 01110010 01100001 01101101");
+                        Console.WriteLine("4: E-Renablingay Ame-gay Aster-may Uence-squay");
+                        Console.WriteLine("New Ending Is Unlocked");
+                        Console.WriteLine("END");
+                        seenSecret7 = true;
+                    }
+                    else
+                        Console.WriteLine("...");
+                }
+                if (upChoice == "ENABLING THE DRAGONS DEN PROTOCOL Enabling True Ending Sequence Enabling Forsakened Re-enabling Game Master Sequence")
+                {
+                    if (GameMaster == true && seenSecret7 == true)
+                    {
+                        var secretQuest = new SecretQuest();
+                        secretQuest.TryStart(this);
+                    }
+                    { }
+                    //End Of GameMaster Secret Quests
+
+                    Console.Clear();
+                    Console.WriteLine("Invalid selection.");
+                }
             }
         }
 
@@ -517,10 +615,10 @@ namespace PersonalProject1.Services
 
                 }
 
-                if (randomNumber >= RangeLuckLoss && randomNumber <= RangeLuckLossMax)
+                if (randomNumber == LuckLoss)
                 {
-                    luck = Math.Max(0, luck - 5);
-                    Console.WriteLine($"{_playerName}, {RangeLuckLossMessage} -5 Luck (new luck: {luck})");
+                    luck = Math.Max(0, luck - 1);
+                    Console.WriteLine($"{_playerName}, {RangeLuckLossMessage} -1 Luck (new luck: {luck})");
                 }
                 if (randomNumber >= RangeCostIncreaseMin && randomNumber <= RangeCostIncreaseMax)
                 {
@@ -531,3 +629,4 @@ namespace PersonalProject1.Services
         }
     }
 }
+
